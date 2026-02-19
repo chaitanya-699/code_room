@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CodeRoom
 
-## Getting Started
+CodeRoom is a collaborative coding platform for classrooms and training sessions.
+It supports teacher-led live coding rooms, problem assignment, student submissions,
+auto-evaluation, and session monitoring.
 
-First, run the development server:
+## Core Product Design
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Roles
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Teacher**
+  - Creates coding rooms
+  - Assigns problems
+  - Monitors submissions and leaderboard
+- **Student**
+  - Joins via room code
+  - Solves and submits coding problems
+  - Tracks result and ranking
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Frontend Modules
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Overview**: product purpose and classroom flow
+- **Teacher Room**: room creation + session setup
+- **Student Workspace**: room join + code editor + submission
+- **Live Monitor**: submissions feed + leaderboard
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js (App Router)
+- React + TypeScript
+- Tailwind CSS
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Backend Integration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+All backend requests are configured to call:
 
-## Deploy on Vercel
+- `http://localhost:8080`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+API client is implemented in [lib/api.ts](lib/api.ts).
+Domain models are in [lib/types.ts](lib/types.ts).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Planned API Contract
+
+- `POST /api/rooms` → create room
+- `POST /api/rooms/join` → join room
+- `GET /api/rooms/:roomCode/problems` → room problems
+- `POST /api/submissions` → submit solution
+- `GET /api/rooms/:roomCode/submissions` → live submissions
+- `GET /api/rooms/:roomCode/leaderboard` → leaderboard
+
+## Run Locally
+
+1. Install dependencies:
+	- `npm install`
+2. Start frontend:
+	- `npm run dev`
+3. Open:
+	- `http://localhost:3000`
+
+> Note: UI is ready for backend wiring, but requires API server at
+> `http://localhost:8080` to return live room/problem/submission data.
