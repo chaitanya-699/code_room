@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 function TestCases() {
   const [testcasesData, setTestcasesData] = useState([

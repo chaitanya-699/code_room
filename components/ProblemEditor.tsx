@@ -1,8 +1,7 @@
 "use client";
-
 import { languages } from "@/lib/api";
 import { Language } from "@/lib/types";
-import { MouseEvent, RefObject, useState } from "react";
+import { MouseEvent, RefObject, useEffect, useState } from "react";
 import CodeEditor from "./CodeEditor";
 import TestCases from "./TestCases";
 import TestResult from "./TestResult";
@@ -27,7 +26,11 @@ function ProblemEditor({
   const [selectedLanguage, setSelectedLanguage] = useState<Language>(
     languages[0],
   );
-  localStorage.setItem(`selected-language`, selectedLanguage.lang);
+  useEffect(() => {
+    localStorage.setItem("selected-language", selectedLanguage.lang);
+    localStorage.setItem(`code-${selectedLanguage.lang}`, selectedLanguage.code);
+  }, [selectedLanguage]);
+
   return (
     <div
       className="right"

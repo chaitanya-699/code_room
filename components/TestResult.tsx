@@ -1,3 +1,4 @@
+"use client";
 import { dummyTestcaseResults } from "@/lib/api";
 import { useState } from "react";
 
