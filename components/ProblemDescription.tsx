@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 
-function ProblemDescription({ leftWidth }) {
+function ProblemDescription({ leftWidth }: { leftWidth: number }) {
   const content = `
 Given an array of integers \`nums\` and an integer \`target\`, return indices of the two numbers such that they add up to target.
 
@@ -39,8 +39,8 @@ Explanation: nums[0] + nums[1] = 2 + 7 = 9
 - 2 <= nums.length <= 10^4
 - -10^9 <= nums[i] <= 10^9
 `;
-  const [showDescription, setShowDescription] = useState("description");
-  const [isSubmitted] = useState(true);
+  const [showDescription, setShowDescription] = useState<string>("description");
+  const [isSubmitted] = useState<boolean>(true);
   const dummySubmissions = [
     {
       id: 1,
@@ -86,7 +86,7 @@ Explanation: nums[0] + nums[1] = 2 + 7 = 9
   ];
 
   return (
-    <div className="left" style={{ width:`${leftWidth}%` }}>
+    <div className="left" style={{ width: `${leftWidth}%` }}>
       <div className="left-body-header">
         <button onClick={() => setShowDescription("description")}>
           Description

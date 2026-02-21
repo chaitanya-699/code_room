@@ -2,7 +2,7 @@
 
 import ProblemDescription from "@/components/ProblemDescription";
 import ProblemEditor from "@/components/ProblemEditor";
-import { dummyProblem, getProblem } from "@/lib/api";
+import { API_BASE_URL, dummyProblem, getProblem } from "@/lib/api";
 import { Problem } from "@/lib/types";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -72,12 +72,30 @@ function Page() {
     isEditorDragging.current = false;
   };
 
+  const handleRunProgram = async () => {
+    const language = localStorage.getItem("selectedLanguage");
+    const code = localStorage.getItem(`code-${language}`);
+
+    const response = await fetch(`${API_BASE_URL}/api/run-code`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        language,
+        code,
+      }),
+    });
+
+    const result = await response.json();
+    console.log("Execution Result:", result);
+  };
   return (
     <div className="main-con">
       <div className="header">
         <div className="header-container">
           <button>
-            <FontAwesomeIcon icon={faPlay} />
+            <FontAwesomeIcon onClick={handleRunProgram} icon={faPlay} />
           </button>
           <button
             style={{
@@ -106,10 +124,10 @@ function Page() {
         {/* RIGHT PANEL = Code editor */}
         <ProblemEditor
           topEditorHeight={topEditorHeight}
+          editorContainerRef={editorContainerRef}
           handleEditorMouseDown={handleEditorMouseDown}
           handleEditorMouseMove={handleEditorMouseMove}
           handleEditorMouseUp={handleEditorMouseUp}
-          editorContainerRef={editorContainerRef}
         />
       </div>
     </div>

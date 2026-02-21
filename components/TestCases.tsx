@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 function TestCases() {
   const [testcasesData, setTestcasesData] = useState([
@@ -44,7 +43,13 @@ function TestCases() {
   ]);
 
   const [selectedTestCase, setSelectedTestCase] = useState(testcasesData[0]);
-  const handleTestcaseChange = (index, e) => {
+  const handleTestcaseChange = ({
+    index,
+    e,
+  }: {
+    index: number;
+    e: React.ChangeEvent<HTMLInputElement>;
+  }) => {
     const selectedTestCaseCopy = { ...selectedTestCase };
     selectedTestCaseCopy.parameters[index].value = e.target.value;
     setSelectedTestCase(selectedTestCaseCopy);
@@ -78,7 +83,7 @@ function TestCases() {
             <input
               className="value"
               value={param.value}
-              onChange={(e) => handleTestcaseChange(index, e)}
+              onChange={(e) => handleTestcaseChange({ index, e })}
             />
           </div>
         ))}

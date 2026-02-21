@@ -1,5 +1,8 @@
+"use client";
+
 import { languages } from "@/lib/api";
-import { useState } from "react";
+import { Language } from "@/lib/types";
+import { MouseEvent, RefObject, useState } from "react";
 import CodeEditor from "./CodeEditor";
 import TestCases from "./TestCases";
 import TestResult from "./TestResult";
@@ -10,12 +13,21 @@ function ProblemEditor({
   handleEditorMouseDown,
   handleEditorMouseMove,
   handleEditorMouseUp,
+}: {
+  topEditorHeight: number;
+  editorContainerRef: RefObject<HTMLDivElement | null>;
+  handleEditorMouseDown: (e: MouseEvent) => void;
+  handleEditorMouseMove: (e: MouseEvent) => void;
+  handleEditorMouseUp: (e: MouseEvent) => void;
 }) {
-  const [code, setCode] = useState(languages[0].code);
-  const [currentTestcaseTab, setCurrentTestcaseTab] = useState("Testcase");
-  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
-
+  const [currentTestcaseTab, setCurrentTestcaseTab] =
+    useState<string>("Testcase");
+  const [showLanguageDropdown, setShowLanguageDropdown] =
+    useState<boolean>(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>(
+    languages[0],
+  );
+  localStorage.setItem(`selected-language`, selectedLanguage.lang);
   return (
     <div
       className="right"
@@ -52,6 +64,7 @@ function ProblemEditor({
                 className={`language-dropdown-list ${selectedLanguage.lang === lang.lang ? "selected" : ""}`}
                 onClick={() => {
                   setSelectedLanguage(lang);
+                  localStorage.setItem(`selected-language`, lang.lang);
                   setShowLanguageDropdown(false);
                 }}
               >
@@ -75,7 +88,7 @@ function ProblemEditor({
           </button>
         </div>
 
-        <CodeEditor language={selectedLanguage} setCode={setCode} />
+        <CodeEditor language={selectedLanguage} />
 
         <div className="code-editor-footer">
           <button>Saved</button>

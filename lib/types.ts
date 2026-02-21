@@ -42,3 +42,8 @@ export interface TestCaseResults {
   testData: TestcaseResultsData[];
   errorData?: ErrorData;
 }
+
+export interface Language {
+  lang: string;
+  code: string;
+}

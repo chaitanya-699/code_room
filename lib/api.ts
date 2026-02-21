@@ -4,7 +4,7 @@ import type {
   TestcaseResultsData,
 } from "@/lib/types";
 
-const API_BASE_URL = "http://localhost:8080";
+export const API_BASE_URL = "http://localhost:8080";
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const dummyResponse = {
