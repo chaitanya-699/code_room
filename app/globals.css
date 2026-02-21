@@ -14,7 +14,227 @@ body {
   width: 100%;
   flex-direction: column;
 }
+.header {
+  background-color: black;
+  color: white;
+  padding: 5px;
+  padding-bottom: 2px;
+}
+.header-container {
+  margin: 0 auto;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 3px;
 
+  overflow: hidden;
+  background-color: transparent;
+}
+.header-container button {
+  padding: 5px 6px;
+  background-color: #5555557b;
+  overflow: hidden;
+  font-size: 15px;
+}
+.header-container button:hover {
+  background-color: #555555;
+  cursor: pointer;
+}
+.con {
+  flex: 1;
+  display: flex;
+  width: 100%;
+  background-color: black;
+  overflow: hidden;
+  height: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+.left {
+  border: 0.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.left-body-header {
+  display: flex;
+  gap: 10px;
+  padding: 5px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.4);
+  background-color: black;
+  color: white;
+}
+.left-body-header button {
+  font-size: 14px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.381);
+}
+.left-body-header button:hover {
+  background-color: #555555;
+  cursor: pointer;
+  color: white;
+}
+.question-main-body {
+  flex: 1;
+  background-color: #1e1e1e;
+  color: rgba(255, 255, 255, 0.871);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.question-main-body::-webkit-scrollbar {
+  width: 8px;
+}
+.question-main-body::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+.question-main-body::-webkit-scrollbar-thumb {
+  background-color: #3a3a3a;
+  border-radius: 10px;
+}
+.question-main-body::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+.question-main-body h1 {
+  font-size: 24px;
+  margin: 5px;
+  background-color: #333333;
+  padding: 4px 10px;
+  max-width: fit-content;
+  border-radius: 8px;
+}
+.problem-markdown { 
+  color: #e5e5e5;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 10px;
+}
+.problem-markdown h1,
+.problem-markdown h2,
+.problem-markdown h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  background-color: #333333;
+  max-width: fit-content;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+.problem-markdown ul {
+  padding-left: 20px;
+}
+.problem-markdown li {
+  margin-bottom: 6px;
+}
+.problem-markdown code {
+  background-color: #333;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.problem-markdown pre {
+  background-color: #1e1e1e;
+  padding: 12px;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+.submissions-container {
+  flex: 1;
+  background-color: #1e1e1e;
+  color: rgba(255, 255, 255, 0.871);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.submission-table {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #1e1e1e;
+}
+.submission-header,
+.submission-row {
+  display: grid;
+  grid-template-columns: 80px 150px 150px 120px 120px;
+  padding: 12px 16px;
+  align-items: center;
+}
+.submission-header {
+  background-color: #2a2a2a;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #bdbdbd;
+  border-bottom: 1px solid #333;
+}
+.submission-row {
+  font-size: 14px;
+  border-bottom: 1px solid #2a2a2a;
+  transition: background 0.2s ease;
+}
+.submission-row:hover {
+  background-color: #292929;
+  cursor: pointer;
+}
+.submission-row:last-child {
+  border-bottom: none;
+}
+.submission-row p,
+.submission-header p {
+  margin: 0;
+}
+.divider {
+  flex-shrink: 0;
+  width: 8px;
+  background-color: transparent;
+  cursor: col-resize;
+  border-radius: 2px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.inner-vertical-divider {
+  align-self: center;
+  width: 2px;
+  background-color: rgba(255, 255, 255, 0.4);
+  height: 30px;
+}
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: black;
+}
+.code-editor-top {
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 0.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  background-color: #262626;
+}
+.code-editor-header {
+  font-size: 12px;
+  background-color: #333333;
+}
+.code-editor-header1 {
+  font-size: 12px;
+  background-color: #262626;
+  color: #9ea0a3;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.4);
+  position: relative;
+}
 .code-editor-header button,
 .code-editor-header1 button {
   margin: 4px 6px;
@@ -24,7 +244,7 @@ body {
   font-size: 13px;
   background: transparent;
   border: none;
-  color: inherit;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,17 +255,13 @@ body {
   background-color: #656464;
   cursor: pointer;
 }
-.code-editor-header1 button {
-  gap: 0px;
-}
-
 .language-dropdown {
   position: absolute;
   background-color: #333333;
   border: 0.5px solid #555555;
   border-radius: 5px;
   top: 104%;
-  
+
   left: 0.2%;
   z-index: 10;
 
@@ -66,49 +282,54 @@ body {
   cursor: pointer;
   background-color: transparent;
 }
-
 .language-dropdown-list.selected {
   background-color: #555555;
 }
-
 .language-dropdown-list:hover {
   background-color: rgba(255, 255, 255, 0.119);
 }
-
+.code-editor-body {
+  flex: 1;
+  overflow: hidden;
+}
 .code-editor-footer {
   background-color: #262626;
   color: white;
-  padding-top: 20px;
 }
 .code-editor-footer button {
   font-size: 11px;
   color: rgba(255, 255, 255, 0.518);
-  margin: 5px 5px;
-  padding: 2px 5px;
+  padding: 5px 10px;
+  margin-top: 8px;
   border-radius: 3px;
   font-weight: 100;
 }
-
-.header-container {
-  margin: 0 auto;
-  width: fit-content;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  border-radius: 3px;
-  overflow: hidden;
+.editor-divider {
+  height: 8px;
   background-color: transparent;
+  cursor: row-resize;
+  flex-shrink: 0;
+  border-radius: 2px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.header-container button {
-  padding: 5px 6px;
-  background-color: #5555557b;
+.inner-horizontal-divider {
+  align-self: center;
+  width: 30px;
+  background-color: rgba(255, 255, 255, 0.4);
+  height: 2px;
+}
+
+.code-editor-bottom {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e1e;
   overflow: hidden;
-  font-size: 15px;
-}
-.header-container button:hover {
-  background-color: #555555;
-  cursor: pointer;
+  border: 0.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
 }
 .testcases-header-container {
   border-bottom: 0.5px solid #555555;
@@ -182,6 +403,19 @@ body {
   justify-content: flex-start;
   max-height: 100%;
 }
+.cases-body::-webkit-scrollbar {
+  width: 8px;
+}
+.cases-body::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+.cases-body::-webkit-scrollbar-thumb {
+  background-color: #3a3a3a;
+  border-radius: 10px;
+}
+.cases-body::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
 .testcase-parameter-container {
   align-self: stretch;
   padding: 5px;
@@ -207,10 +441,13 @@ body {
   flex-direction: column;
 }
 .testresult-body h1 {
+  flex: 1;
   margin: 8px 15px;
   color: red;
   font-size: 25px;
   font-weight: medium;
+  max-height: fit-content;
+  margin-bottom: 0px;
 }
 .results-header {
   display: flex;
@@ -241,6 +478,28 @@ body {
   color: white;
   background-color: #65646485;
 }
-.results-body{
-  color : white;
+.results-body {
+  flex: 1;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  align-items: stretch;
+  justify-content: start;
+  max-height: 100%;
+  gap: 5px;
+  overflow-x: hidden;
+}
+.results-body::-webkit-scrollbar {
+  width: 8px;
+}
+.results-body::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+.results-body::-webkit-scrollbar-thumb {
+  background-color: #3a3a3a;
+  border-radius: 10px;
+}
+.results-body::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }

@@ -1,57 +1,44 @@
-export interface CreateRoomPayload {
-  title: string;
-  teacherName: string;
-}
-
-export interface CreateRoomResponse {
-  roomCode: string;
-  title: string;
-}
-
-export interface JoinRoomPayload {
-  roomCode: string;
-  studentName: string;
-}
-
-export interface JoinRoomResponse {
-  roomCode: string;
-  message?: string;
-}
-
 export interface Problem {
-  id: string;
+  id: number;
   title: string;
   statement: string;
-  difficulty?: "easy" | "medium" | "hard";
-  topic?: string;
+  visibleTestcases: VisibleTestcase[];
+  codeSnippets: CodeSnippet[];
 }
-
-export interface SubmitSolutionPayload {
-  roomCode: string;
-  problemId: string;
-  studentName: string;
+export interface Examples {
+  input: string;
+  output: string;
+  explanation?: string;
+}
+export interface CodeSnippet {
   language: string;
   code: string;
 }
-
-export interface SubmissionResult {
-  status: "accepted" | "wrong_answer" | "runtime_error" | "pending" | string;
-  passedTestCases: number;
-  totalTestCases: number;
+export interface VisibleTestcase {
+  id: number;
+  parameters: Parameters[];
 }
-
-export interface RoomSubmission {
-  id: string;
-  studentName: string;
-  problemTitle: string;
+export interface Parameters {
+  name: string;
+  value: string;
+}
+export interface TestcaseResultsData {
+  id: number;
+  parameters: Parameters[];
+  stdio: string[] | null;
+  output: string | null;
+  expected: string | null;
+  error: string | null;
   status: string;
-  language: string;
-  submittedAt: string;
 }
 
-export interface LeaderboardEntry {
-  rank: number;
-  studentName: string;
-  problemsSolved: number;
-  score: number;
+export interface ErrorData {
+  errorType: string;
+  messages: string[];
+}
+
+export interface TestCaseResults {
+  status: string;
+  testData: TestcaseResultsData[];
+  errorData?: ErrorData;
 }
