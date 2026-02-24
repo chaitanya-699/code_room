@@ -1,108 +1,67 @@
-import { useState } from "react";
+import {
+  dummySubmissionResponseAccepted,
+  dummySubmissionResponseError,
+  dummySubmissionResponseWrongAnswer,
+  dummySubmissions,
+} from "@/lib/api";
+import { Problem } from "@/lib/types";
 import ReactMarkdown from "react-markdown";
 
-function ProblemDescription({ leftWidth }: { leftWidth: number }) {
-  const content = `
-Given an array of integers \`nums\` and an integer \`target\`, return indices of the two numbers such that they add up to target.
-
-### Notes
-You may assume that each input has exactly one solution.
-
-
-### Example 1
-Input: nums = [2,7,11,15], target = 9  
-Output: [0,1]  
-Explanation: nums[0] + nums[1] = 2 + 7 = 9
-
-### Example 1
-Input: nums = [2,7,11,15], target = 9  
-Output: [0,1]  
-Explanation: nums[0] + nums[1] = 2 + 7 = 9
-
-### Example 1
-Input: nums = [2,7,11,15], target = 9  
-Output: [0,1]  
-Explanation: nums[0] + nums[1] = 2 + 7 = 9
-
-### Example 1
-Input: nums = [2,7,11,15], target = 9  
-Output: [0,1]  
-Explanation: nums[0] + nums[1] = 2 + 7 = 9
-
-### Example 1
-Input: nums = [2,7,11,15], target = 9  
-Output: [0,1]  
-Explanation: nums[0] + nums[1] = 2 + 7 = 9
-
-
-### Constraints
-- 2 <= nums.length <= 10^4
-- -10^9 <= nums[i] <= 10^9
-`;
-  const [showDescription, setShowDescription] = useState<string>("description");
-  const [isSubmitted] = useState<boolean>(true);
-  const dummySubmissions = [
-    {
-      id: 1,
-      status: "Accepted",
-      date: "2024-06-01",
-      language: "JavaScript",
-      runtime: "20ms",
-      memory: "40mb",
-    },
-    {
-      id: 2,
-      status: "Wrong Answer",
-      date: "2024-06-02",
-      language: "Python",
-      runtime: "N/A",
-      memory: "N/A",
-    },
-    {
-      id: 3,
-      status: "Time Limit Exceeded",
-      date: "2024-06-03",
-      language: "Java",
-      runtime: "N/A",
-      memory: "N/A",
-    },
-    {
-      id: 4,
-      status: "Wrong Answer",
-      date: "2024-06-02",
-      language: "Python",
-      runtime: "N/A",
-      memory: "N/A",
-    },
-
-    {
-      id: 5,
-      status: "Wrong Answer",
-      date: "2024-06-02",
-      language: "Python",
-      runtime: "N/A",
-      memory: "N/A",
-    },
-  ];
+function ProblemDescription({
+  leftWidth,
+  isSubmitted,
+  showDescription,
+  setShowDescription,
+  problemData,
+  isSubmitting,
+}: {
+  leftWidth: number;
+  isSubmitted: boolean;
+  showDescription: string;
+  setShowDescription: (tab: string) => void;
+  problemData: Problem | null;
+  isSubmitting: boolean;
+}) {
+  const content = problemData?.content || null;
 
   return (
     <div className="left" style={{ width: `${leftWidth}%` }}>
       <div className="left-body-header">
-        <button onClick={() => setShowDescription("description")}>
+        <button
+          className={`${showDescription === "description" ? "activeDescriptionTab" : ""}`}
+          onClick={() => setShowDescription("description")}
+        >
           Description
         </button>
-        <button onClick={() => setShowDescription("submissions")}>
+        {isSubmitted && (
+          <button
+            className={`${showDescription === "submission-state" || isSubmitting ? "activeDescriptionTab" : ""}`}
+            onClick={() => setShowDescription("submission-state")}
+          >
+            {isSubmitting
+              ? "Submitting..."
+              : dummySubmissionResponseAccepted.status}
+          </button>
+        )}
+        <button
+          className={`${showDescription === "submissions" ? "activeDescriptionTab" : ""}`}
+          onClick={() => setShowDescription("submissions")}
+        >
           Submissions
         </button>
       </div>
-      {showDescription === "description" ? (
+      {showDescription === "description" && (
         <div className="question-main-body">
           <h1>Two Sum</h1>
           <div className="problem-markdown">
-            <ReactMarkdown>{content}</ReactMarkdown>
+            <ReactMarkdown>
+              {content !== null ? content : "No content available."}
+            </ReactMarkdown>
           </div>
         </div>
-      ) : (
+      )}
+
+      {showDescription === "submissions" && (
         <div className="submissions-container">
           <div className="submission-table">
             <div className="submission-header">
@@ -135,6 +94,85 @@ Explanation: nums[0] + nums[1] = 2 + 7 = 9
               </p>
             )}
           </div>
+        </div>
+      )}
+
+      {showDescription === "submission-state" && (
+        <div className="submission-state">
+          {dummySubmissionResponseAccepted.status === "Accepted" && (
+            <div className="submission-state-accepted">
+              <h1>{dummySubmissionResponseAccepted.status}</h1>
+              <p>Runtime: {dummySubmissionResponseAccepted.runtime}</p>
+              <p>Memory: {dummySubmissionResponseAccepted.memory}</p>
+              <p>
+                <span>
+                  {dummySubmissionResponseAccepted.passedTestCases} /{" "}
+                  {dummySubmissionResponseAccepted.totalTestCases} test cases
+                  passed
+                </span>
+              </p>
+              <p>
+                Date and Time: {dummySubmissionResponseAccepted.dateAndTime}
+              </p>
+            </div>
+          )}
+          {dummySubmissionResponseWrongAnswer.status === "Wrong Answer" && (
+            <div className="submission-state-wrong-answer">
+              <h1>{dummySubmissionResponseWrongAnswer.status}</h1>
+              <p>Runtime: {dummySubmissionResponseWrongAnswer.runtime}</p>
+              <p>Memory: {dummySubmissionResponseWrongAnswer.memory}</p>
+              <p>
+                <span>
+                  {dummySubmissionResponseWrongAnswer.passedTestCases} /{" "}
+                  {dummySubmissionResponseWrongAnswer.totalTestCases} test cases
+                  passed
+                </span>
+              </p>
+              <p>
+                Date and Time: {dummySubmissionResponseWrongAnswer.dateAndTime}
+              </p>
+            </div>
+          )}
+          {dummySubmissionResponseError.status === "Error" && (
+            <div className="submission-state-error">
+              <h1
+                style={{
+                  color: "#ef4444",
+                  fontSize: "28px",
+                  fontWeight: 600,
+                  margin: 0,
+                  letterSpacing: "0.5px",
+                }}
+              >
+                {dummySubmissionResponseError.typeOffError}
+              </h1>
+              <div
+                style={{
+                  width: "auto",
+                  margin: "10px",
+                  marginTop: "0px",
+                  borderRadius: "8px",
+                  padding: "10px",
+                  backgroundColor: "rgba(239, 68, 68, 0.15)",
+                  color: "#ef4444",
+                }}
+              >
+                {dummySubmissionResponseError.errorMessage?.map(
+                  (message, index) => (
+                    <p key={index}>{message}</p>
+                  ),
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {showDescription === "isSubmitting" && (
+        <div className="testresult-body-loading">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="skeleton-row" />
+          ))}
         </div>
       )}
     </div>

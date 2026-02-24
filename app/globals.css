@@ -28,7 +28,6 @@ body {
   justify-content: center;
   gap: 2px;
   border-radius: 3px;
-
   overflow: hidden;
   background-color: transparent;
 }
@@ -37,6 +36,12 @@ body {
   background-color: #5555557b;
   overflow: hidden;
   font-size: 15px;
+}
+.header-container button:disabled {
+  background-color: #55555540;
+  cursor: not-allowed;
+
+  opacity: 0.6;
 }
 .header-container button:hover {
   background-color: #555555;
@@ -79,6 +84,11 @@ body {
   cursor: pointer;
   color: white;
 }
+.left-body-header button.activeDescriptionTab {
+  font-weight: 500;
+  background-color: #555555;
+  color: white;
+}
 .question-main-body {
   flex: 1;
   background-color: #1e1e1e;
@@ -108,7 +118,7 @@ body {
   max-width: fit-content;
   border-radius: 8px;
 }
-.problem-markdown { 
+.problem-markdown {
   color: #e5e5e5;
   font-size: 14px;
   line-height: 1.6;
@@ -191,6 +201,89 @@ body {
 .submission-header p {
   margin: 0;
 }
+
+.submission-state {
+  flex: 1;
+  background-color: #1e1e1e;
+  color: rgba(255, 255, 255, 0.871);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.submission-state-accepted {
+  flex: 1;
+  border-radius: 16px;
+
+  padding: 24px;
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.submission-state-accepted h1 {
+  color: #22c55e;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+.submission-state-accepted p {
+  margin: 0;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.75);
+}
+.submission-state-accepted span {
+  display: inline-block;
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+.submission-state-wrong-answer {
+  flex: 1;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.submission-state-wrong-answer h1 {
+  color: #ef4444;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.submission-state-wrong-answer p {
+  margin: 0;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.submission-state-wrong-answer span {
+  display: inline-block;
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+.submission-state-error {
+  flex: 1;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .divider {
   flex-shrink: 0;
   width: 8px;
@@ -338,6 +431,7 @@ body {
   justify-content: start;
   gap: 2px;
   padding: 2px;
+
   background-color: #333333;
 }
 .testcases-header-container p {
@@ -369,6 +463,7 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 .cases-header {
   display: flex;
   align-items: center;
@@ -440,6 +535,7 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 .testresult-body h1 {
   flex: 1;
   margin: 8px 15px;
@@ -449,6 +545,55 @@ body {
   max-height: fit-content;
   margin-bottom: 0px;
 }
+
+.testresult-body h1.errorStatus {
+  color: #ef4444;
+}
+.testresult-body h1.passedStatus {
+  color: #22c55e;
+  
+}
+.testresult-body-loading {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.testresult-body-loading {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+.skeleton-row {
+  width: 100%;
+  height: 42px;
+  margin: 14px 0;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #2a2a2a 0%, #3a3a3a 50%, #2a2a2a 100%);
+  background-size: 300% 100%;
+  animation: shimmer 3.2s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 300% 0;
+  }
+  100% {
+    background-position: -300% 0;
+  }
+}
+.loader-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #aaa;
+  font-size: 14px;
+}
+
 .results-header {
   display: flex;
   flex-direction: row;

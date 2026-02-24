@@ -1,9 +1,25 @@
 export interface Problem {
   id: number;
   title: string;
-  statement: string;
   visibleTestcases: VisibleTestcase[];
   codeSnippets: CodeSnippet[];
+  content: string;
+}
+
+export interface TestCaseResults {
+  testCaseResultsData: TestCaseResultData[];
+  status: string;
+}
+
+export interface TestCaseResultData {
+  id: number;
+  parameters: Parameters[];
+  stdio: string[];
+  output: string | null;
+  expected: string | null;
+  error: string | null;
+  status: string;
+  errorType: string | null;
 }
 export interface Examples {
   input: string;
@@ -17,6 +33,7 @@ export interface CodeSnippet {
 export interface VisibleTestcase {
   id: number;
   parameters: Parameters[];
+  expectedOutput: string;
 }
 export interface Parameters {
   name: string;
@@ -37,13 +54,16 @@ export interface ErrorData {
   messages: string[];
 }
 
-export interface TestCaseResults {
-  status: string;
-  testData: TestcaseResultsData[];
-  errorData?: ErrorData;
-}
-
 export interface Language {
   lang: string;
   code: string;
+}
+
+export interface SubmissionData {
+  id: number;
+  status: string;
+  date: string;
+  language: string;
+  runtime: string;
+  memory: string;
 }

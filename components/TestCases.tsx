@@ -1,48 +1,10 @@
 "use client";
+import { Problem } from "@/lib/types";
 import { useState } from "react";
-function TestCases() {
-  const [testcasesData, setTestcasesData] = useState([
-    {
-      id: 1,
-      parameters: [
-        {
-          name: "nums",
-          value: "[3,4,5,6]",
-        },
-        {
-          name: "val",
-          value: "1",
-        },
-      ],
-    },
-    {
-      id: 2,
-      parameters: [
-        {
-          name: "nums",
-          value: "[3,4,5,6]",
-        },
-        {
-          name: "val",
-          value: "2",
-        },
-      ],
-    },
-    {
-      id: 3,
-      parameters: [
-        {
-          name: "nums",
-          value: "[3,4,5,6]",
-        },
-        {
-          name: "val",
-          value: "3",
-        },
-      ],
-    },
-  ]);
-
+function TestCases({ problemData }: { problemData: Problem | null }) {
+  const [testcasesData, setTestcasesData] = useState(
+    problemData?.visibleTestcases || [],
+  );
   const [selectedTestCase, setSelectedTestCase] = useState(testcasesData[0]);
   const handleTestcaseChange = ({
     index,
@@ -82,12 +44,41 @@ function TestCases() {
           <div key={index} className="testcase-parameter-container">
             <p className="name">{param.name} =</p>
             <input
+              readOnly
+              type="text"
               className="value"
               value={param.value}
               onChange={(e) => handleTestcaseChange({ index, e })}
             />
           </div>
         ))}
+        <div
+          className="expectedOutput"
+          style={{
+            alignSelf: "stretch",
+          }}
+        >
+          <p
+            style={{
+              margin: "10px",
+            }}
+          >
+            Expected =
+          </p>
+          <p
+            style={{
+              width: "auto",
+              fontSize: 15,
+              padding: 10,
+              backgroundColor: "#333333",
+              borderRadius: 5,
+              margin: 10,
+              outline: "none",
+            }}
+          >
+            {selectedTestCase.expectedOutput}
+          </p>
+        </div>
       </div>
     </div>
   );

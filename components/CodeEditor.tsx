@@ -1,46 +1,39 @@
 "use client";
 
-import { languages } from "@/lib/api";
+import { CodeSnippet } from "@/lib/types";
 import "@fontsource/jetbrains-mono";
 import { Editor } from "@monaco-editor/react";
 import { useState } from "react";
 
 function CodeEditor({
+  languages,
   language,
 }: {
-  language: { lang: string; code: string };
+  languages: CodeSnippet[];
+  language: CodeSnippet;
 }) {
-  const [codeMap, setCodeMap] = useState<Record<string, string>>(() => {
-    const initialState: Record<string, string> = {};
-    if (typeof window !== "undefined") {
-      languages.forEach((langObj) => {
-        const savedCode = localStorage.getItem(`code-${langObj.lang}`);
-        initialState[langObj.lang] = savedCode ?? langObj.code;
-      });
-    } else {
-      languages.forEach((langObj) => {
-        initialState[langObj.lang] = langObj.code;
-      });
-    }
-    return initialState;
-  });
-
+  const languageMap: { [key: string]: string } = {
+    Java: "java",
+    Python: "python",
+    "C++": "cpp",
+    JavaScript: "javascript",
+  };
+ 
   const handleEditorChange = (value: string | undefined) => {
-    const updatedValue = value || "";
-    setCodeMap((prev) => ({
-      ...prev,
-      [language.lang]: updatedValue,
-    }));
-    localStorage.setItem(`code-${language.lang}`, updatedValue);
+    if (value !== undefined) {
+      localStorage.setItem(`code-${language.language}`, value);
+    }
   };
 
   return (
     <div className="code-editor-body">
       <Editor
         height="100%"
-        value={codeMap[language.lang] || ""}
+        value={localStorage.getItem(`code-${language.language}`) || language.code}
         onChange={handleEditorChange}
-        language={language.lang === "C++" ? "cpp" : language.lang.toLowerCase()}
+        language={
+          languageMap[language.language] || language.language.toLowerCase()
+        }
         theme="vs-dark"
         options={{
           fontSize: 12,
