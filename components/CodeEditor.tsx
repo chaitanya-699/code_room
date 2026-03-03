@@ -1,36 +1,29 @@
 "use client";
 
-import { CodeSnippet } from "@/lib/types";
 import "@fontsource/jetbrains-mono";
 import { Editor } from "@monaco-editor/react";
 
-function CodeEditor({
-  language,
-}: {
-  language: CodeSnippet;
-}) {
+type Props = {
+  language: string;
+  code: string;
+  onChange: (value: string) => void;
+};
+
+function CodeEditor({ language, code, onChange }: Props) {
   const languageMap: { [key: string]: string } = {
     Java: "java",
     Python: "python",
     "C++": "cpp",
     JavaScript: "javascript",
   };
- 
-  const handleEditorChange = (value: string | undefined) => {
-    if (value !== undefined) {
-      localStorage.setItem(`code-${language.language}`, value);
-    }
-  };
 
   return (
     <div className="code-editor-body">
       <Editor
         height="100%"
-        value={localStorage.getItem(`code-${language.language}`) || language.code}
-        onChange={handleEditorChange}
-        language={
-          languageMap[language.language] || language.language.toLowerCase()
-        }
+        value={code}
+        onChange={(value) => onChange(value || "")}
+        language={languageMap[language] || language.toLowerCase()}
         theme="vs-dark"
         options={{
           fontSize: 12,

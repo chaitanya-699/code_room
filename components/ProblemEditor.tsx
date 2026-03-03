@@ -31,6 +31,27 @@ function ProblemEditor({
   problemData: Problem | null;
   testCaseData?: TestCaseResults;
 }) {
+  const [showLanguageDropdown, setShowLanguageDropdown] =
+    useState<boolean>(false);
+
+  const [selectedLanguage, setSelectedLanguage] =
+    useState<CodeSnippet | null>(() => {
+      if (typeof window === "undefined") {
+        return { language: "Java", code: "" };
+      }
+
+      const savedLanguage =
+        localStorage.getItem("selected-language") || "Java";
+
+      const savedCode =
+        localStorage.getItem(`code-${savedLanguage}`);
+
+      return {
+        language: savedLanguage,
+        code: savedCode || "",
+      };
+    });
+
   useEffect(() => {
     if (!problemData?.codeSnippets) return;
 
@@ -43,26 +64,38 @@ function ProblemEditor({
       }
     });
 
-    const selectedLanguage = localStorage.getItem("selected-language");
-
-    if (!selectedLanguage) {
+    if (!localStorage.getItem("selected-language")) {
       localStorage.setItem("selected-language", "Java");
     }
   }, [problemData]);
-  const codeSnippet: CodeSnippet = {
-    language: localStorage.getItem("selected-language") || "Java",
-    code:
-      localStorage.getItem(
-        `code-${localStorage.getItem("selected-language")}`,
-      ) ||
-      problemData?.codeSnippets[0].code ||
-      "",
+
+  useEffect(() => {
+    if (!selectedLanguage) return;
+
+    localStorage.setItem(
+      "selected-language",
+      selectedLanguage.language
+    );
+
+    localStorage.setItem(
+      `code-${selectedLanguage.language}`,
+      selectedLanguage.code
+    );
+  }, [selectedLanguage]);
+
+  const handleLanguageChange = (lang: CodeSnippet) => {
+    const savedCode = localStorage.getItem(
+      `code-${lang.language}`
+    );
+
+    setSelectedLanguage({
+      language: lang.language,
+      code: savedCode ?? lang.code,
+    });
+
+    setShowLanguageDropdown(false);
   };
-  const [showLanguageDropdown, setShowLanguageDropdown] =
-    useState<boolean>(false);
-  const [selectedLanguage, setSelectedLanguage] = useState<CodeSnippet | null>(
-    codeSnippet,
-  );
+
   return (
     <div
       className="right"
@@ -76,12 +109,7 @@ function ProblemEditor({
         style={{ height: `${topEditorHeight}%` }}
       >
         <div className="code-editor-header">
-          <button
-            style={{
-              fontSize: "14px",
-              fontWeight: "500",
-            }}
-          >
+          <button style={{ fontSize: "14px", fontWeight: "500" }}>
             <span style={{ color: "#28c244" }}>{"</> "}</span>Code
           </button>
         </div>
@@ -91,74 +119,91 @@ function ProblemEditor({
           onMouseLeave={() => setShowLanguageDropdown(false)}
         >
           <div
-            className={`language-dropdown ${showLanguageDropdown ? "show" : ""}`}
+            className={`language-dropdown ${
+              showLanguageDropdown ? "show" : ""
+            }`}
           >
             {problemData?.codeSnippets.map((lang) => (
               <div
                 key={lang.language}
-                className={`language-dropdown-list ${selectedLanguage?.language === lang.language ? "selected" : ""}`}
-                onClick={() => {
-                  setSelectedLanguage(lang);
-                  localStorage.setItem(`selected-language`, lang.language);
-                  setShowLanguageDropdown(false);
-                }}
+                className={`language-dropdown-list ${
+                  selectedLanguage?.language === lang.language
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() => handleLanguageChange(lang)}
               >
                 {lang.language}
               </div>
             ))}
           </div>
+
           <button
-            onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+            onClick={() =>
+              setShowLanguageDropdown(!showLanguageDropdown)
+            }
           >
             {selectedLanguage?.language ?? "Select Language"}
             <span
               style={{
                 paddingLeft: "5px",
                 fontSize: "9px",
-                textAlign: "start",
               }}
             >
               {"▼"}
-            </span>{" "}
+            </span>
           </button>
         </div>
 
-        {selectedLanguage?.language === "JavaScript" && (
-          <CodeEditor key="javascript"  language={selectedLanguage} />
+        {selectedLanguage && (
+          <CodeEditor
+            key={selectedLanguage.language}
+            language={selectedLanguage.language}
+            code={selectedLanguage.code}
+            onChange={(newCode) =>
+              setSelectedLanguage((prev) =>
+                prev
+                  ? { ...prev, code: newCode }
+                  : prev
+              )
+            }
+          />
         )}
-
-        {selectedLanguage?.language === "Python" && (
-          <CodeEditor key="python"  language={selectedLanguage} />
-        )}
-
-        {selectedLanguage?.language === "Java" && (
-          <CodeEditor key="java"  language={selectedLanguage} />
-        )}
-
-        {selectedLanguage?.language === "C++" && <CodeEditor key="cpp" language={selectedLanguage} />}
 
         <div className="code-editor-footer">
           <button>Changes saved locally</button>
         </div>
       </div>
 
-      {/* HORIZONTAL DIVIDER */}
-      <div className="editor-divider" onMouseDown={handleEditorMouseDown}>
+      <div
+        className="editor-divider"
+        onMouseDown={handleEditorMouseDown}
+      >
         <div className="inner-horizontal-divider"></div>
       </div>
 
       <div className="code-editor-bottom">
         <div className="testcases-header-container">
           <button
-            className={`${currentTestcaseTab === "Testcase" ? "activeTestCaseTab" : ""}`}
+            className={
+              currentTestcaseTab === "Testcase"
+                ? "activeTestCaseTab"
+                : ""
+            }
             onClick={() => setCurrentTestcaseTab("Testcase")}
           >
             Test cases
           </button>
-          <p></p>
+
           <button
-            className={`${currentTestcaseTab === "TestResults" ? "activeTestCaseTab" : ""}`}
-            onClick={() => setCurrentTestcaseTab("TestResults")}
+            className={
+              currentTestcaseTab === "TestResults"
+                ? "activeTestCaseTab"
+                : ""
+            }
+            onClick={() =>
+              setCurrentTestcaseTab("TestResults")
+            }
           >
             {isRunning ? (
               <div
@@ -174,13 +219,17 @@ function ProblemEditor({
               </div>
             ) : (
               ">_ "
-            )}{" "}
+            )}
             Test Results
           </button>
         </div>
+
         <div className="testcase-body-container">
           {currentTestcaseTab === "TestResults" ? (
-            <TestResult isRunning={isRunning} testCaseData={testCaseData} />
+            <TestResult
+              isRunning={isRunning}
+              testCaseData={testCaseData}
+            />
           ) : (
             <TestCases problemData={problemData} />
           )}
