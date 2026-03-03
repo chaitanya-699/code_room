@@ -3,7 +3,7 @@
 import ProblemDescription from "@/components/ProblemDescription";
 import ProblemEditor from "@/components/ProblemEditor";
 import { dummyProblem } from "@/lib/api";
-import { Problem, TestCaseResults } from "@/lib/types";
+import { Problem, SubmissionResponse, TestCaseResults } from "@/lib/types";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Lottie from "lottie-react";
@@ -25,7 +25,8 @@ function Page() {
   const [showDescription, setShowDescription] = useState<string>("description");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [testCaseData, setTestCaseData] = useState<TestCaseResults>();
-
+  const [submissionResponse, setSubmissionResponse] =
+    useState<SubmissionResponse>();
   const handleMouseDown = () => {
     isDragging.current = true;
   };
@@ -62,13 +63,6 @@ function Page() {
   const handleEditorMouseUp = () => {
     isEditorDragging.current = false;
   };
-  const fakeApiCall = () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ success: true, data: "Test cases passed" });
-      }, 3000);
-    });
-  };
   const handleRunProgram = async () => {
     setIsRunning(true);
     setTopEditorHeight(20);
@@ -78,7 +72,7 @@ function Page() {
       const code = localStorage.getItem(
         `code-${localStorage.getItem("selected-language")}`,
       );
-      const response = await fetch("http://localhost:8080/run-code", {
+      const response = await fetch("http://localhost:8080/api/run-code", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -102,8 +96,21 @@ function Page() {
     setIsSubmitted(true);
     setShowDescription("isSubmitting");
     try {
-      const response = await fakeApiCall();
-      console.log(response);
+      const response = await fetch("http://localhost:8080/api/submit-code", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          language: localStorage.getItem("selected-language"),
+          code: localStorage.getItem(
+            `code-${localStorage.getItem("selected-language")}`,
+          ),
+        }),
+      });
+      const result = await response.json();
+      setSubmissionResponse(result);
+      console.log(result);
     } catch (err) {
       console.error(err);
     } finally {
@@ -185,6 +192,7 @@ function Page() {
           setShowDescription={setShowDescription}
           problemData={problemData}
           isSubmitting={isSubmitting}
+          submissionResponse={submissionResponse}
         />
 
         {/* VERTICAL DIVIDER */}

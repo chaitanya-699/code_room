@@ -63,7 +63,6 @@ function ProblemEditor({
   const [selectedLanguage, setSelectedLanguage] = useState<CodeSnippet | null>(
     codeSnippet,
   );
-
   return (
     <div
       className="right"
@@ -124,13 +123,22 @@ function ProblemEditor({
           </button>
         </div>
 
-        <CodeEditor
-          languages={problemData?.codeSnippets ?? []}
-          language={selectedLanguage!}
-        />
+        {selectedLanguage?.language === "JavaScript" && (
+          <CodeEditor key="javascript"  language={selectedLanguage} />
+        )}
+
+        {selectedLanguage?.language === "Python" && (
+          <CodeEditor key="python"  language={selectedLanguage} />
+        )}
+
+        {selectedLanguage?.language === "Java" && (
+          <CodeEditor key="java"  language={selectedLanguage} />
+        )}
+
+        {selectedLanguage?.language === "C++" && <CodeEditor key="cpp" language={selectedLanguage} />}
 
         <div className="code-editor-footer">
-          <button>Saved</button>
+          <button>Changes saved locally</button>
         </div>
       </div>
 

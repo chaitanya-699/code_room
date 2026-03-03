@@ -1,10 +1,5 @@
-import {
-  dummySubmissionResponseAccepted,
-  dummySubmissionResponseError,
-  dummySubmissionResponseWrongAnswer,
-  dummySubmissions,
-} from "@/lib/api";
-import { Problem } from "@/lib/types";
+import { dummySubmissions } from "@/lib/api";
+import { Problem, SubmissionResponse } from "@/lib/types";
 import ReactMarkdown from "react-markdown";
 
 function ProblemDescription({
@@ -14,6 +9,7 @@ function ProblemDescription({
   setShowDescription,
   problemData,
   isSubmitting,
+  submissionResponse,
 }: {
   leftWidth: number;
   isSubmitted: boolean;
@@ -21,6 +17,7 @@ function ProblemDescription({
   setShowDescription: (tab: string) => void;
   problemData: Problem | null;
   isSubmitting: boolean;
+  submissionResponse?: SubmissionResponse;
 }) {
   const content = problemData?.content || null;
 
@@ -35,12 +32,14 @@ function ProblemDescription({
         </button>
         {isSubmitted && (
           <button
-            className={`${showDescription === "submission-state" || isSubmitting ? "activeDescriptionTab" : ""}`}
+            className={`${showDescription === "submission-state" || isSubmitting ? "activeDescriptionTab" : "" }`}
             onClick={() => setShowDescription("submission-state")}
           >
             {isSubmitting
               ? "Submitting..."
-              : dummySubmissionResponseAccepted.status}
+              : submissionResponse?.status === "Error"
+                ? submissionResponse.errorType
+                : submissionResponse?.status}
           </button>
         )}
         <button
@@ -99,41 +98,35 @@ function ProblemDescription({
 
       {showDescription === "submission-state" && (
         <div className="submission-state">
-          {dummySubmissionResponseAccepted.status === "Accepted" && (
+          {submissionResponse?.status === "Accepted" && (
             <div className="submission-state-accepted">
-              <h1>{dummySubmissionResponseAccepted.status}</h1>
-              <p>Runtime: {dummySubmissionResponseAccepted.runtime}</p>
-              <p>Memory: {dummySubmissionResponseAccepted.memory}</p>
+              <h1>{submissionResponse.status}</h1>
+              <p>Runtime: {submissionResponse.runtime} {"ms"}</p>
+              <p>Memory: {submissionResponse.memory} {"kb"}</p>
               <p>
                 <span>
-                  {dummySubmissionResponseAccepted.passedTestCases} /{" "}
-                  {dummySubmissionResponseAccepted.totalTestCases} test cases
-                  passed
+                  {submissionResponse.passedTestCases} /{" "}
+                  {submissionResponse.totalTestCases} test cases passed
                 </span>
               </p>
-              <p>
-                Date and Time: {dummySubmissionResponseAccepted.dateAndTime}
-              </p>
+              <p>Date and Time: {submissionResponse.date}</p>
             </div>
           )}
-          {dummySubmissionResponseWrongAnswer.status === "Wrong Answer" && (
+          {submissionResponse?.status === "Wrong Answer" && (
             <div className="submission-state-wrong-answer">
-              <h1>{dummySubmissionResponseWrongAnswer.status}</h1>
-              <p>Runtime: {dummySubmissionResponseWrongAnswer.runtime}</p>
-              <p>Memory: {dummySubmissionResponseWrongAnswer.memory}</p>
+              <h1>{submissionResponse.status}</h1>
+              <p>Runtime: {submissionResponse.runtime} {"ms"}</p>
+              <p>Memory: {submissionResponse.memory}{"kb"}</p>
               <p>
                 <span>
-                  {dummySubmissionResponseWrongAnswer.passedTestCases} /{" "}
-                  {dummySubmissionResponseWrongAnswer.totalTestCases} test cases
-                  passed
+                  {submissionResponse.passedTestCases} /{" "}
+                  {submissionResponse.totalTestCases} test cases passed
                 </span>
               </p>
-              <p>
-                Date and Time: {dummySubmissionResponseWrongAnswer.dateAndTime}
-              </p>
+              <p>Date and Time: {submissionResponse.date}</p>
             </div>
           )}
-          {dummySubmissionResponseError.status === "Error" && (
+          {submissionResponse?.status === "Error" && (
             <div className="submission-state-error">
               <h1
                 style={{
@@ -144,7 +137,7 @@ function ProblemDescription({
                   letterSpacing: "0.5px",
                 }}
               >
-                {dummySubmissionResponseError.typeOffError}
+                {submissionResponse.errorType}
               </h1>
               <div
                 style={{
@@ -157,11 +150,11 @@ function ProblemDescription({
                   color: "#ef4444",
                 }}
               >
-                {dummySubmissionResponseError.errorMessage?.map(
-                  (message, index) => (
+                {submissionResponse.errorMessages != null &&
+                  submissionResponse.errorMessages.length > 0 &&
+                  submissionResponse.errorMessages.map((message, index) => (
                     <p key={index}>{message}</p>
-                  ),
-                )}
+                  ))}
               </div>
             </div>
           )}

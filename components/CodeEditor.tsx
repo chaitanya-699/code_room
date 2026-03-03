@@ -3,13 +3,10 @@
 import { CodeSnippet } from "@/lib/types";
 import "@fontsource/jetbrains-mono";
 import { Editor } from "@monaco-editor/react";
-import { useState } from "react";
 
 function CodeEditor({
-  languages,
   language,
 }: {
-  languages: CodeSnippet[];
   language: CodeSnippet;
 }) {
   const languageMap: { [key: string]: string } = {

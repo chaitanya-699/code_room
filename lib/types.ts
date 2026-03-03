@@ -67,3 +67,14 @@ export interface SubmissionData {
   runtime: string;
   memory: string;
 }
+export interface SubmissionResponse {
+  submissionId?: number | null;
+  status: string;
+  passedTestCases: number;
+  totalTestCases: number;
+  runtime: number;
+  memory: number;
+  date: string;
+  errorType?: string | null;
+  errorMessages?: string[] | null;
+}

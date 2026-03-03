@@ -1,4 +1,8 @@
-import type { Problem, TestcaseResultsData } from "@/lib/types";
+import type {
+  Problem,
+  SubmissionResponse,
+  TestcaseResultsData,
+} from "@/lib/types";
 
 export const API_BASE_URL = "http://localhost:8080";
 
@@ -344,4 +348,15 @@ export const runTestPassedData = {
     },
   ],
   status: "Accepted",
+};
+export const data: SubmissionResponse = {
+  submissionId: null,
+  status: "Wrong Answer",
+  passedTestCases: 3,
+  totalTestCases: 12,
+  runtime: 0,
+  memory: 0,
+  date: "Tue Feb 24 13:17:01 IST 2026",
+  errorType: null,
+  errorMessages: null,
 };
