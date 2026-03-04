@@ -1,23 +1,34 @@
 import { dummySubmissions } from "@/lib/api";
 import { Problem, SubmissionResponse } from "@/lib/types";
 import ReactMarkdown from "react-markdown";
+import ExtendButton from "./ExtendButton";
 
 function ProblemDescription({
   leftWidth,
+  setLeftWidth,
+  topEditorHeight,
+  setTopEditorHeight,
   isSubmitted,
   showDescription,
   setShowDescription,
   problemData,
   isSubmitting,
   submissionResponse,
+  fullScreen,
+  setFullScreen,
 }: {
   leftWidth: number;
+  setLeftWidth: (width: number) => void;
+  topEditorHeight: number;
+  setTopEditorHeight: (height: number) => void;
   isSubmitted: boolean;
   showDescription: string;
   setShowDescription: (tab: string) => void;
   problemData: Problem | null;
   isSubmitting: boolean;
   submissionResponse?: SubmissionResponse;
+  fullScreen: boolean;
+  setFullScreen: (fullScreen: boolean) => void;
 }) {
   const content = problemData?.content || null;
 
@@ -32,7 +43,7 @@ function ProblemDescription({
         </button>
         {isSubmitted && (
           <button
-            className={`${showDescription === "submission-state" || isSubmitting ? "activeDescriptionTab" : "" }`}
+            className={`${showDescription === "submission-state" || isSubmitting ? "activeDescriptionTab" : ""}`}
             onClick={() => setShowDescription("submission-state")}
           >
             {isSubmitting
@@ -48,6 +59,15 @@ function ProblemDescription({
         >
           Submissions
         </button>
+        <ExtendButton
+          id="leftWidth"
+          leftWidth={leftWidth}
+          setLeftWidth={setLeftWidth}
+          topHeightWidth={topEditorHeight}
+          setTopHeightWidth={setTopEditorHeight}
+          fullScreen={fullScreen}
+          setFullScreen={setFullScreen}
+        />
       </div>
       {showDescription === "description" && (
         <div className="question-main-body">
@@ -101,8 +121,12 @@ function ProblemDescription({
           {submissionResponse?.status === "Accepted" && (
             <div className="submission-state-accepted">
               <h1>{submissionResponse.status}</h1>
-              <p>Runtime: {submissionResponse.runtime} {"ms"}</p>
-              <p>Memory: {submissionResponse.memory} {"kb"}</p>
+              <p>
+                Runtime: {submissionResponse.runtime} {"ms"}
+              </p>
+              <p>
+                Memory: {submissionResponse.memory} {"kb"}
+              </p>
               <p>
                 <span>
                   {submissionResponse.passedTestCases} /{" "}
@@ -115,8 +139,13 @@ function ProblemDescription({
           {submissionResponse?.status === "Wrong Answer" && (
             <div className="submission-state-wrong-answer">
               <h1>{submissionResponse.status}</h1>
-              <p>Runtime: {submissionResponse.runtime} {"ms"}</p>
-              <p>Memory: {submissionResponse.memory}{"kb"}</p>
+              <p>
+                Runtime: {submissionResponse.runtime} {"ms"}
+              </p>
+              <p>
+                Memory: {submissionResponse.memory}
+                {"kb"}
+              </p>
               <p>
                 <span>
                   {submissionResponse.passedTestCases} /{" "}

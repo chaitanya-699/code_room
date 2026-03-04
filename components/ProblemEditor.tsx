@@ -5,11 +5,15 @@ import Lottie from "lottie-react";
 import { MouseEvent, RefObject, useEffect, useState } from "react";
 import Spinner from "../public/assets/icon-animations/spinner.json";
 import CodeEditor from "./CodeEditor";
+import ExtendButton from "./ExtendButton";
 import TestCases from "./TestCases";
 import TestResult from "./TestResult";
 
 function ProblemEditor({
+  leftWidth,
+  setLeftWidth,
   topEditorHeight,
+  setTopEditorHeight,
   editorContainerRef,
   handleEditorMouseDown,
   handleEditorMouseMove,
@@ -19,8 +23,13 @@ function ProblemEditor({
   setCurrentTestcaseTab,
   problemData,
   testCaseData,
+  fullScreen,
+  setFullScreen,
 }: {
+  leftWidth: number;
+  setLeftWidth: (width: number) => void;
   topEditorHeight: number;
+  setTopEditorHeight: (height: number) => void;
   editorContainerRef: RefObject<HTMLDivElement | null>;
   handleEditorMouseDown: (e: MouseEvent) => void;
   handleEditorMouseMove: (e: MouseEvent) => void;
@@ -30,27 +39,41 @@ function ProblemEditor({
   setCurrentTestcaseTab: (value: string) => void;
   problemData: Problem | null;
   testCaseData?: TestCaseResults;
+  fullScreen: boolean;
+  setFullScreen: (fullScreen: boolean) => void;
 }) {
   const [showLanguageDropdown, setShowLanguageDropdown] =
     useState<boolean>(false);
 
-  const [selectedLanguage, setSelectedLanguage] =
-    useState<CodeSnippet | null>(() => {
-      if (typeof window === "undefined") {
-        return { language: "Java", code: "" };
-      }
+  // const [selectedLanguage, setSelectedLanguage] = useState<CodeSnippet | null>(
+  //   () => {
+  //     if (typeof window === "undefined") {
+  //       return { language: "Java", code: "" };
+  //     }
+  //     const savedLanguage = localStorage.getItem("selected-language") || "Java";
+  //     const savedCode = localStorage.getItem(`code-${savedLanguage}`);
 
-      const savedLanguage =
-        localStorage.getItem("selected-language") || "Java";
+  //     return {
+  //       language: savedLanguage,
+  //       code: savedCode || "",
+  //     };
+  //   },
+  // );
+  const [selectedLanguage, setSelectedLanguage] = useState<CodeSnippet | null>(
+    null,
+  );
 
-      const savedCode =
-        localStorage.getItem(`code-${savedLanguage}`);
+  useEffect(() => {
+    if (!problemData?.codeSnippets) return;
 
-      return {
-        language: savedLanguage,
-        code: savedCode || "",
-      };
+    const savedLanguage = localStorage.getItem("selected-language") || "Java";
+    const savedCode = localStorage.getItem(`code-${savedLanguage}`);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSelectedLanguage({
+      language: savedLanguage,
+      code: savedCode || "",
     });
+  }, [problemData]);
 
   useEffect(() => {
     if (!problemData?.codeSnippets) return;
@@ -72,21 +95,16 @@ function ProblemEditor({
   useEffect(() => {
     if (!selectedLanguage) return;
 
-    localStorage.setItem(
-      "selected-language",
-      selectedLanguage.language
-    );
+    localStorage.setItem("selected-language", selectedLanguage.language);
 
     localStorage.setItem(
       `code-${selectedLanguage.language}`,
-      selectedLanguage.code
+      selectedLanguage.code,
     );
   }, [selectedLanguage]);
 
   const handleLanguageChange = (lang: CodeSnippet) => {
-    const savedCode = localStorage.getItem(
-      `code-${lang.language}`
-    );
+    const savedCode = localStorage.getItem(`code-${lang.language}`);
 
     setSelectedLanguage({
       language: lang.language,
@@ -108,10 +126,21 @@ function ProblemEditor({
         className="code-editor-top"
         style={{ height: `${topEditorHeight}%` }}
       >
-        <div className="code-editor-header">
+        <div
+          className={`${fullScreen ? "code-editor-header-fullscreen" : "code-editor-header"}`}
+        >
           <button style={{ fontSize: "14px", fontWeight: "500" }}>
             <span style={{ color: "#28c244" }}>{"</> "}</span>Code
           </button>
+          <ExtendButton
+            id="topEditorHeight"
+            leftWidth={topEditorHeight}
+            setLeftWidth={setTopEditorHeight}
+            topHeightWidth={topEditorHeight}
+            setTopHeightWidth={setTopEditorHeight}
+            fullScreen={fullScreen}
+            setFullScreen={setFullScreen}
+          />
         </div>
 
         <div
@@ -127,9 +156,7 @@ function ProblemEditor({
               <div
                 key={lang.language}
                 className={`language-dropdown-list ${
-                  selectedLanguage?.language === lang.language
-                    ? "selected"
-                    : ""
+                  selectedLanguage?.language === lang.language ? "selected" : ""
                 }`}
                 onClick={() => handleLanguageChange(lang)}
               >
@@ -139,9 +166,7 @@ function ProblemEditor({
           </div>
 
           <button
-            onClick={() =>
-              setShowLanguageDropdown(!showLanguageDropdown)
-            }
+            onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
           >
             {selectedLanguage?.language ?? "Select Language"}
             <span
@@ -153,6 +178,16 @@ function ProblemEditor({
               {"▼"}
             </span>
           </button>
+
+          <ExtendButton
+            id="fullScreen"
+            leftWidth={leftWidth}
+            setLeftWidth={setLeftWidth}
+            topHeightWidth={topEditorHeight}
+            setTopHeightWidth={setTopEditorHeight}
+            fullScreen={fullScreen}
+            setFullScreen={setFullScreen}
+          />
         </div>
 
         {selectedLanguage && (
@@ -162,23 +197,18 @@ function ProblemEditor({
             code={selectedLanguage.code}
             onChange={(newCode) =>
               setSelectedLanguage((prev) =>
-                prev
-                  ? { ...prev, code: newCode }
-                  : prev
+                prev ? { ...prev, code: newCode } : prev,
               )
             }
           />
         )}
 
         <div className="code-editor-footer">
-          <button>Changes saved locally</button>
+          <button>Changes will be saved automatically</button>
         </div>
       </div>
 
-      <div
-        className="editor-divider"
-        onMouseDown={handleEditorMouseDown}
-      >
+      <div className="editor-divider" onMouseDown={handleEditorMouseDown}>
         <div className="inner-horizontal-divider"></div>
       </div>
 
@@ -186,9 +216,7 @@ function ProblemEditor({
         <div className="testcases-header-container">
           <button
             className={
-              currentTestcaseTab === "Testcase"
-                ? "activeTestCaseTab"
-                : ""
+              currentTestcaseTab === "Testcase" ? "activeTestCaseTab" : ""
             }
             onClick={() => setCurrentTestcaseTab("Testcase")}
           >
@@ -197,13 +225,9 @@ function ProblemEditor({
 
           <button
             className={
-              currentTestcaseTab === "TestResults"
-                ? "activeTestCaseTab"
-                : ""
+              currentTestcaseTab === "TestResults" ? "activeTestCaseTab" : ""
             }
-            onClick={() =>
-              setCurrentTestcaseTab("TestResults")
-            }
+            onClick={() => setCurrentTestcaseTab("TestResults")}
           >
             {isRunning ? (
               <div
@@ -226,10 +250,7 @@ function ProblemEditor({
 
         <div className="testcase-body-container">
           {currentTestcaseTab === "TestResults" ? (
-            <TestResult
-              isRunning={isRunning}
-              testCaseData={testCaseData}
-            />
+            <TestResult isRunning={isRunning} testCaseData={testCaseData} />
           ) : (
             <TestCases problemData={problemData} />
           )}

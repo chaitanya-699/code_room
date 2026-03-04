@@ -20,6 +20,9 @@ body {
   padding: 5px;
   padding-bottom: 2px;
 }
+.header-full-screen {
+  display: none;
+}
 .header-container {
   margin: 0 auto;
   width: fit-content;
@@ -66,6 +69,7 @@ body {
   flex-shrink: 0;
 }
 .left-body-header {
+  position: relative;
   display: flex;
   gap: 10px;
   padding: 5px;
@@ -318,8 +322,12 @@ body {
   background-color: #262626;
 }
 .code-editor-header {
+  position: relative;
   font-size: 12px;
   background-color: #333333;
+}
+.code-editor-header-fullscreen {
+  display: none;
 }
 .code-editor-header1 {
   font-size: 12px;
@@ -353,7 +361,7 @@ body {
   background-color: #333333;
   border: 0.5px solid #555555;
   border-radius: 5px;
-  top: 104%;
+  top: 102%;
   left: 0.2%;
   z-index: 10;
   opacity: 0;
@@ -367,8 +375,7 @@ body {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
-   z-index: 10;
-   
+  z-index: 10;
 }
 .language-dropdown-list {
   padding: 5px 10px;

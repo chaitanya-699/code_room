@@ -30,7 +30,7 @@ function Page() {
   const handleMouseDown = () => {
     isDragging.current = true;
   };
-
+  const [fullScreen, setFullScreen] = useState(false);
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!isDragging.current || !containerRef.current) return;
     // if mouse is outside container bounds, do not update
@@ -120,7 +120,7 @@ function Page() {
   };
   return (
     <div className="main-con">
-      <div className="header">
+      <div className={`header ${fullScreen ? "header-full-screen" : ""}`}>
         <div className="header-container">
           <button
             className={`header-btn ${isSubmitting ? "run-disabled" : ""}`}
@@ -187,12 +187,17 @@ function Page() {
         {/* LEFT PANEL - Problem Description */}
         <ProblemDescription
           leftWidth={leftWidth}
+          setLeftWidth={setLeftWidth}
+          topEditorHeight={topEditorHeight}
+          setTopEditorHeight={setTopEditorHeight}
           isSubmitted={isSubmitted}
           showDescription={showDescription}
           setShowDescription={setShowDescription}
           problemData={problemData}
           isSubmitting={isSubmitting}
           submissionResponse={submissionResponse}
+          fullScreen={fullScreen}
+          setFullScreen={setFullScreen}
         />
 
         {/* VERTICAL DIVIDER */}
@@ -202,7 +207,10 @@ function Page() {
 
         {/* RIGHT PANEL = Code editor */}
         <ProblemEditor
+          leftWidth={leftWidth}
+          setLeftWidth={setLeftWidth}
           topEditorHeight={topEditorHeight}
+          setTopEditorHeight={setTopEditorHeight}
           editorContainerRef={editorContainerRef}
           handleEditorMouseDown={handleEditorMouseDown}
           handleEditorMouseMove={handleEditorMouseMove}
@@ -212,6 +220,8 @@ function Page() {
           setCurrentTestcaseTab={setCurrentTestcaseTab}
           problemData={problemData}
           testCaseData={testCaseData}
+          fullScreen={fullScreen}
+          setFullScreen={setFullScreen}
         />
       </div>
     </div>
