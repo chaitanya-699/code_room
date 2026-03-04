@@ -31,6 +31,13 @@ export default function HomePage() {
             <i className="fa-solid fa-user"></i>
             <span>Profile</span>
           </Link>
+          <Link
+            href="/problem"
+            className="sidebar-nav-item sidebar-nav-item-demo"
+          >
+            <i className="fa-solid fa-flask"></i>
+            <span>Demo Test</span>
+          </Link>
         </nav>
 
         <div className="sidebar-divider"></div>
