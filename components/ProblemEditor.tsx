@@ -45,20 +45,6 @@ function ProblemEditor({
   const [showLanguageDropdown, setShowLanguageDropdown] =
     useState<boolean>(false);
 
-  // const [selectedLanguage, setSelectedLanguage] = useState<CodeSnippet | null>(
-  //   () => {
-  //     if (typeof window === "undefined") {
-  //       return { language: "Java", code: "" };
-  //     }
-  //     const savedLanguage = localStorage.getItem("selected-language") || "Java";
-  //     const savedCode = localStorage.getItem(`code-${savedLanguage}`);
-
-  //     return {
-  //       language: savedLanguage,
-  //       code: savedCode || "",
-  //     };
-  //   },
-  // );
   const [selectedLanguage, setSelectedLanguage] = useState<CodeSnippet | null>(
     null,
   );
