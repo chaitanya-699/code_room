@@ -1,61 +1,43 @@
 # CodeRoom
 
-CodeRoom is a collaborative coding platform for classrooms and training sessions.
-It supports teacher-led live coding rooms, problem assignment, student submissions,
-auto-evaluation, and session monitoring.
+CodeRoom is a live coding test platform that lets anyone create a test room, pick coding questions, and share a 6-digit room code with participants. Participants join instantly from any device — no setup, no friction.
 
-## Core Product Design
+## What It Does
 
-### Roles
+Create a room, assign problems, and share a 6-digit code. Participants join in seconds, write code directly in the browser, and submit for automatic evaluation. Results and verdicts are delivered instantly.
 
-- **Teacher**
-  - Creates coding rooms
-  - Assigns problems
-  - Monitors submissions and leaderboard
-- **Student**
-  - Joins via room code
-  - Solves and submits coding problems
-  - Tracks result and ranking
+## How It Works
 
-### Frontend Modules
+1. **Create a Room** — Log in and spin up a new test room. Name it and configure your settings.
+2. **Choose Questions** — Pick from curated coding problems across difficulty levels and language categories.
+3. **Share the Code** — Get a unique 6-digit room code and share it with your participants.
+4. **Solve & Evaluate** — Participants join, write code, and submit. Auto-evaluation delivers instant verdicts.
 
-- **Overview**: product purpose and classroom flow
-- **Teacher Room**: room creation + session setup
-- **Student Workspace**: room join + code editor + submission
-- **Live Monitor**: submissions feed + leaderboard
+## Key Features
+
+- **Real-time Environment** — Code execution happens live with instant output and feedback.
+- **Room-based Sessions** — Isolated test rooms with unique 6-digit codes — private and secure.
+- **Secure Login Required** — Only authenticated users can create or join sessions.
+- **Multiple Languages** — Full support for Python, JavaScript, C++, Java, Go, Rust, and more.
+- **Auto Evaluation** — Submissions are automatically judged against test cases with instant verdicts.
+- **Instant Room Sharing** — Just share a 6-digit code — participants join from any device without any installation.
+
+## Use Cases
+
+- **Interview Practice** — Run technical interviews with candidates in a realistic coding environment.
+- **Coding Contests** — Host competitive programming rounds with multiple participants live in a single session room.
+- **Classroom Tests** — Instructors can assign live coding exams and monitor every submission in real-time.
+- **Peer Challenges** — Challenge friends or teammates to solve problems inside a shared private room session.
 
 ## Tech Stack
 
 - Next.js (App Router)
 - React + TypeScript
-- Tailwind CSS
+- Plain CSS
 
 ## Backend Integration
 
-All backend requests are configured to call:
+All backend requests are configured to call `http://localhost:8080`.
 
-- `http://localhost:8080`
-
-API client is implemented in [lib/api.ts](lib/api.ts).
-Domain models are in [lib/types.ts](lib/types.ts).
-
-### Planned API Contract
-
-- `POST /api/rooms` → create room
-- `POST /api/rooms/join` → join room
-- `GET /api/rooms/:roomCode/problems` → room problems
-- `POST /api/submissions` → submit solution
-- `GET /api/rooms/:roomCode/submissions` → live submissions
-- `GET /api/rooms/:roomCode/leaderboard` → leaderboard
-
-## Run Locally
-
-1. Install dependencies:
-	- `npm install`
-2. Start frontend:
-	- `npm run dev`
-3. Open:
-	- `http://localhost:3000`
-
-> Note: UI is ready for backend wiring, but requires API server at
-> `http://localhost:8080` to return live room/problem/submission data.
+- API client: [lib/api.ts](lib/api.ts)
+- Domain models: [lib/types.ts](lib/types.ts)

@@ -96,10 +96,7 @@ export default function HomePage() {
                 <i className="fa-solid fa-right-to-bracket"></i>
                 Join with Code
               </Link>
-              <Link
-                href="/problem"
-                className="cta-btn-secondary demo-btn"
-              >
+              <Link href="/demo-page" className="cta-btn-secondary demo-btn">
                 <i className="fa-solid fa-flask"></i>
                 <span>Demo Test</span>
               </Link>

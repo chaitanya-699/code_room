@@ -803,7 +803,6 @@ body:has(.landing-page) {
   color: #22c55e;
 }
 
-
 .sidebar-divider {
   height: 1px;
   background-color: #1f1f1f;
@@ -1022,7 +1021,7 @@ body:has(.landing-page) {
   background-color: #1a1a1a;
   transform: translateY(-1px);
 }
-.cta-btn-secondary.demo-btn{
+.cta-btn-secondary.demo-btn {
   color: #f59e0b !important;
   border: 1px dashed rgba(245, 158, 11, 0.25);
 }
@@ -1030,7 +1029,6 @@ body:has(.landing-page) {
 .cta-btn-secondary.demo-btn:hover {
   background-color: rgba(245, 158, 11, 0.08) !important;
   color: #fbbf24 !important;
-
 }
 
 .cta-btn-ghost {
@@ -1612,6 +1610,7 @@ body:has(.landing-page) {
   padding: 8px 16px;
   border-radius: 8px;
   width: fit-content;
+  
 }
 
 .cta-prompt {
