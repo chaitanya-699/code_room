@@ -31,13 +31,6 @@ export default function HomePage() {
             <i className="fa-solid fa-user"></i>
             <span>Profile</span>
           </Link>
-          <Link
-            href="/problem"
-            className="sidebar-nav-item sidebar-nav-item-demo"
-          >
-            <i className="fa-solid fa-flask"></i>
-            <span>Demo Test</span>
-          </Link>
         </nav>
 
         <div className="sidebar-divider"></div>
@@ -51,6 +44,10 @@ export default function HomePage() {
             <i className="fa-solid fa-user-plus"></i>
             Sign Up
           </Link>
+          {/* <Link href="/logout" className="sidebar-auth-btn logout">
+            <i className="fa-solid fa-right-from-bracket"></i>
+            Logout
+          </Link> */}
         </div>
       </aside>
 
@@ -98,6 +95,13 @@ export default function HomePage() {
               <Link href="/join" className="cta-btn-secondary">
                 <i className="fa-solid fa-right-to-bracket"></i>
                 Join with Code
+              </Link>
+              <Link
+                href="/problem"
+                className="cta-btn-secondary demo-btn"
+              >
+                <i className="fa-solid fa-flask"></i>
+                <span>Demo Test</span>
               </Link>
             </div>
             <div className="hero-stats">

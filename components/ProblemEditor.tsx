@@ -53,7 +53,9 @@ function ProblemEditor({
     if (!problemData?.codeSnippets) return;
 
     const savedLanguage = localStorage.getItem("selected-language") || "Java";
-    const savedCode = localStorage.getItem(`code-${savedLanguage}`);
+    const savedCode =
+      localStorage.getItem(`code-${savedLanguage}`) ||
+      problemData.codeSnippets.find((s) => s.language === savedLanguage)?.code;
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSelectedLanguage({
       language: savedLanguage,

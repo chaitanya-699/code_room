@@ -15,6 +15,7 @@ body {
   flex-direction: column;
 }
 .header {
+  position: relative;
   background-color: #0f0f0f;
   color: #d4d4d4;
   padding: 5px;
@@ -802,15 +803,6 @@ body:has(.landing-page) {
   color: #22c55e;
 }
 
-.sidebar-nav-item-demo {
-  color: #f59e0b !important;
-  border: 1px dashed rgba(245, 158, 11, 0.25);
-}
-
-.sidebar-nav-item-demo:hover {
-  background-color: rgba(245, 158, 11, 0.08) !important;
-  color: #fbbf24 !important;
-}
 
 .sidebar-divider {
   height: 1px;
@@ -861,6 +853,18 @@ body:has(.landing-page) {
 
 .sidebar-auth-btn.signup:hover {
   background-color: #16a34a;
+}
+
+.sidebar-auth-btn.logout {
+  color: #ef4444;
+  background-color: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.sidebar-auth-btn.logout:hover {
+  background-color: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #f87171;
 }
 
 /* ─────────────────────────────────────────────
@@ -1018,6 +1022,16 @@ body:has(.landing-page) {
   background-color: #1a1a1a;
   transform: translateY(-1px);
 }
+.cta-btn-secondary.demo-btn{
+  color: #f59e0b !important;
+  border: 1px dashed rgba(245, 158, 11, 0.25);
+}
+
+.cta-btn-secondary.demo-btn:hover {
+  background-color: rgba(245, 158, 11, 0.08) !important;
+  color: #fbbf24 !important;
+
+}
 
 .cta-btn-ghost {
   display: inline-flex;
@@ -1131,6 +1145,7 @@ body:has(.landing-page) {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .hero-stats {

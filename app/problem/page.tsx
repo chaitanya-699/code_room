@@ -7,6 +7,7 @@ import { Problem, SubmissionResponse, TestCaseResults } from "@/lib/types";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Lottie from "lottie-react";
+import Link from "next/link";
 import { MouseEvent, useRef, useState } from "react";
 import Gear from "../../public/assets/icon-animations/Gear.json";
 
@@ -176,6 +177,31 @@ function Page() {
             submit
           </button>
         </div>
+
+        <Link
+          href="/"
+          className="home-icon"
+          style={{
+            position: "absolute",
+            top: "15%",
+            left: "1%",
+            backgroundColor: "#1a1a1a",
+            border: "1px solid #2a2a2a",
+            padding: "3px 10px",
+            borderRadius: "5px",
+          }}
+        >
+          <span
+            style={{
+              color: "#22c55e",
+              fontWeight: "bold",
+              fontSize: "15px",
+            }}
+          >
+            {"</>"}
+          </span>
+          CodeRoom
+        </Link>
       </div>
       <div
         ref={containerRef}
